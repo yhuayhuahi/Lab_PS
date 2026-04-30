@@ -15,3 +15,6 @@ def test_evaluar_rendimiento_fuera_rango_menor():
 
 def test_evaluar_rendimiento_fuera_rango_mayor():
     assert evaluar_rendimiento(23) == "Nota fuera de rango"
+
+def test_evaluar_rendimiento_entrada_no_valida():
+    assert evaluar_rendimiento("A") == "Error: Por Favor, solo ingrese un número entero para la nota"
