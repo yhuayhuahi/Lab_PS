@@ -4,7 +4,9 @@ def evaluar_rendimiento(nota):
         return "Insuficiente"
     elif nota <= 15 and nota >= 11:
         return "Regular"
-    return nota
+    elif nota <= 20 and nota >= 16:
+        return "Excelente"
+    return "Nota fuera de rango"
 
 
 
