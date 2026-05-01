@@ -1,0 +1,11 @@
+Característica: Cálculo de reembolsos por cancelación de reserva
+
+  Escenario: Cliente VIP cancela con poca antelación
+    Dado que un cliente tiene el estatus VIP
+    Cuando cancela la reserva con solo 2 horas de antelación
+    Entonces el sistema debe devolver un reembolso del 50%
+
+    Ejemplo:
+    Dado que un cliente tiene el estatus VIP Y el monto de su reserva es 200.0
+    Cuando cancela la reserva con solo 2 horas de antelación
+    Entonces el sistema debe devolver un reembolso del 50%, osea, 100.0
