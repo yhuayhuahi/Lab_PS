@@ -41,3 +41,47 @@ class TestLongitud(unittest.TestCase):
     def test_longitud_5_es_valida(self):
         self.assertTrue(es_identificador_valido("ABCDE"))
 
+
+# =============================================================================
+# Fase 2 – Regla del primer carácter (debe ser letra)
+# =============================================================================
+class TestPrimerCaracter(unittest.TestCase):
+    """
+    TDD – Iteración 2: el primer carácter debe ser una letra (A-Z / a-z).
+    Se usan las clases de equivalencia: letra, dígito, carácter especial.
+    """
+
+    # --- Primer carácter INVÁLIDO -------------------------------------------
+
+    def test_primer_caracter_digito_es_invalido(self):
+        self.assertFalse(es_identificador_valido("1ABC"))
+
+    def test_primer_caracter_digito_cero_es_invalido(self):
+        self.assertFalse(es_identificador_valido("0VAR"))
+
+    def test_primer_caracter_underscore_es_invalido(self):
+        self.assertFalse(es_identificador_valido("_VAR"))
+
+    def test_primer_caracter_signo_dolar_es_invalido(self):
+        self.assertFalse(es_identificador_valido("$VAR"))
+
+    def test_primer_caracter_espacio_es_invalido(self):
+        self.assertFalse(es_identificador_valido(" VAR"))
+
+    def test_primer_caracter_at_es_invalido(self):
+        self.assertFalse(es_identificador_valido("@VAR"))
+
+    # --- Primer carácter VÁLIDO (letras) ------------------------------------
+
+    def test_primer_caracter_mayuscula_es_valido(self):
+        self.assertTrue(es_identificador_valido("ALPHA"))
+
+    def test_primer_caracter_minuscula_es_valido(self):
+        self.assertTrue(es_identificador_valido("x123"))
+
+    def test_solo_una_letra_mayuscula(self):
+        self.assertTrue(es_identificador_valido("Z"))
+
+    def test_solo_una_letra_minuscula(self):
+        self.assertTrue(es_identificador_valido("z"))
+
