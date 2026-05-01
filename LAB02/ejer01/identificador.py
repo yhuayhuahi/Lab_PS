@@ -8,5 +8,9 @@ def es_identificador_valido(identificador: str) -> bool:
     if not identificador[0].isalpha():
         return False
 
+    # Regla 3 – Los caracteres restantes deben ser letras o dígitos
+    for caracter in identificador[1:]:
+        if not caracter.isalnum():
+            return False
 
     return True

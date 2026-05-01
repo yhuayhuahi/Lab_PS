@@ -85,3 +85,53 @@ class TestPrimerCaracter(unittest.TestCase):
     def test_solo_una_letra_minuscula(self):
         self.assertTrue(es_identificador_valido("z"))
 
+
+# =============================================================================
+# Fase 3 – Regla de caracteres restantes (letras o dígitos)
+# =============================================================================
+class TestCaracteresRestantes(unittest.TestCase):
+    """
+    TDD – Iteración 3: posiciones 2..N solo aceptan letras (A-Z, a-z) o
+    dígitos (0-9). Cualquier otro símbolo invalida el identificador.
+    """
+
+    # --- Caracteres restantes INVÁLIDOS -------------------------------------
+
+    def test_guion_bajo_en_medio_es_invalido(self):
+        self.assertFalse(es_identificador_valido("A_B"))
+
+    def test_guion_en_medio_es_invalido(self):
+        self.assertFalse(es_identificador_valido("A-B"))
+
+    def test_punto_en_medio_es_invalido(self):
+        self.assertFalse(es_identificador_valido("A.B"))
+
+    def test_espacio_en_medio_es_invalido(self):
+        self.assertFalse(es_identificador_valido("A B"))
+
+    def test_signo_exclamacion_en_medio_es_invalido(self):
+        self.assertFalse(es_identificador_valido("A!2"))
+
+    def test_signo_mas_en_medio_es_invalido(self):
+        self.assertFalse(es_identificador_valido("A+2"))
+
+    def test_caracter_especial_al_final_es_invalido(self):
+        self.assertFalse(es_identificador_valido("ABC#"))
+
+    # --- Caracteres restantes VÁLIDOS ---------------------------------------
+
+    def test_solo_letras_mayusculas_es_valido(self):
+        self.assertTrue(es_identificador_valido("ABCDEF"))
+
+    def test_solo_letras_minusculas_es_valido(self):
+        self.assertTrue(es_identificador_valido("abcde"))
+
+    def test_letras_y_digitos_es_valido(self):
+        self.assertTrue(es_identificador_valido("A1B2C3"))
+
+    def test_letra_seguida_de_digitos_es_valido(self):
+        self.assertTrue(es_identificador_valido("X99"))
+
+    def test_digito_al_final_es_valido(self):
+        self.assertTrue(es_identificador_valido("LOOP1"))
+
