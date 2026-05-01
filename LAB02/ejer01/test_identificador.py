@@ -135,3 +135,55 @@ class TestCaracteresRestantes(unittest.TestCase):
     def test_digito_al_final_es_valido(self):
         self.assertTrue(es_identificador_valido("LOOP1"))
 
+
+
+# =============================================================================
+# Fase 4 – Casos de integración (combinación de reglas)
+# =============================================================================
+class TestCasosIntegracion(unittest.TestCase):
+    """
+    TDD – Iteración 4: casos que ejercitan dos o más reglas simultáneamente.
+    Incluye ejemplos representativos de nombres de variables Fortran reales.
+    """
+
+    # --- Casos VÁLIDOS de integración ---------------------------------------
+
+    def test_nombre_tipico_fortran_I(self):
+        self.assertTrue(es_identificador_valido("I"))
+
+    def test_nombre_tipico_fortran_N(self):
+        self.assertTrue(es_identificador_valido("N"))
+
+    def test_nombre_tipico_fortran_X(self):
+        self.assertTrue(es_identificador_valido("X"))
+
+    def test_contador_tipico(self):
+        self.assertTrue(es_identificador_valido("COUNT"))
+
+    def test_nombre_mixto_6_caracteres(self):
+        self.assertTrue(es_identificador_valido("Var123"))
+
+    # --- Casos INVÁLIDOS de integración -------------------------------------
+
+    def test_nombre_largo_con_especiales(self):
+        self.assertFalse(es_identificador_valido("MY_VAR!"))
+
+    def test_digito_primero_y_largo(self):
+        self.assertFalse(es_identificador_valido("1ABCDEF"))
+
+    def test_solo_digitos(self):
+        self.assertFalse(es_identificador_valido("123"))
+
+    def test_solo_especiales(self):
+        self.assertFalse(es_identificador_valido("@#$"))
+
+    def test_cadena_con_nueva_linea(self):
+        self.assertFalse(es_identificador_valido("A\nB"))
+
+    def test_cadena_con_tabulacion(self):
+        self.assertFalse(es_identificador_valido("A\tB"))
+
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
