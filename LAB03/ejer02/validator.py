@@ -5,30 +5,34 @@ def validar_contrasena(str):
 
     caracteres_especiales = ["!", "@", "#", "$", "%", "^", "&", "*"]
 
-    cadena_vacia = False
-    if (len(str) == 0):
-        cadena_vacia = True
-
-    if (cadena_vacia or not (len(str) >= 8)):
+    if (not (len(str) >= 8)):
         valida = valida and False
-        errores.append("error longitud")
+        errores.append("error longitud menor")
 
-    if (cadena_vacia or not any(caracter.isupper() for caracter in str)):
+    if (not any(caracter.isupper() for caracter in str)):
         valida = valida and False
         errores.append("error mayúscula")
 
-    if (cadena_vacia or not any(caracter.islower() for caracter in str)):
+    if (not any(caracter.islower() for caracter in str)):
         valida = valida and False
         errores.append("error minúscula")
 
-    if (cadena_vacia or not any(caracter.isnumeric() for caracter in str)):
+    if (not any(caracter.isnumeric() for caracter in str)):
         valida = valida and False
         errores.append("error dígito")
 
-    if (cadena_vacia or not any(str.find(especial) != -1 for especial in caracteres_especiales)):
+    if (not any(str.find(especial) != -1 for especial in caracteres_especiales)):
         valida = valida and False
         errores.append("error especial")
 
+    if (not str.find(" ") == -1):
+        valida = valida and False
+        errores.append("error espacio")
+
+    if (not (len(str) <= 25)):
+        valida = valida and False
+        errores.append("error longitud mayor")
+        
     return { "valida": valida, "errores": errores }
 
 
