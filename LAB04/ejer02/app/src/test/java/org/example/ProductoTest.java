@@ -3,14 +3,19 @@ package org.example;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.DisplayName;
+
 public class ProductoTest {
   @Test
+  @DisplayName("Test de getters de Producto")
   public void testGettersFuncionales() {
-    Producto producto = new Producto(1, "Laptop", 999.99, true);
+    Producto p = new Producto(1, "Laptop", 999.99, true);
     
-    assertEquals(1, producto.getId());
-    assertEquals("Laptop", producto.getNombre());
-    assertEquals(999.99, producto.getPrecio());
-    assertTrue(producto.getDisponibilidad());
+    assertAll(
+        () -> assertEquals(1, p.getId()),
+        () -> assertEquals("Laptop", p.getNombre()),
+        () -> assertEquals(999.99, p.getPrecio(), 1e-9),   // delta por ser double
+        () -> assertTrue(p.getDisponibilidad())
+    );
   }
 }
