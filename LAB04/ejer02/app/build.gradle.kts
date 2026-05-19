@@ -17,6 +17,8 @@ repositories {
 
 dependencies {
     // Use JUnit Jupiter for testing.
+    implementation("io.javalin:javalin-bundle:7.2.2")
+
     testImplementation(libs.junit.jupiter)
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")

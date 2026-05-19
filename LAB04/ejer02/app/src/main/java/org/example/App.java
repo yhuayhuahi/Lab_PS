@@ -3,12 +3,17 @@
  */
 package org.example;
 
+import io.javalin.Javalin;
+//import io.javalin.http.staticfiles.Location;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
+    public void runServer() {
+        var app = Javalin.create(config -> {
+            config.routes.get("/", ctx -> ctx.result("Hello World"));
+        }).start(7070);
     }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        new App().runServer();
     }
 }
