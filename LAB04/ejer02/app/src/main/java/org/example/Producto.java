@@ -1,41 +1,32 @@
 package org.example;
 
 public class Producto {
-  private int id;
-  private String nombre;
-  private double precio;
-  private boolean disponibilidad;
 
-  public Producto(int id, String nombre, double precio, boolean disponibilidad) {
-    this.id = id;
-    this.nombre = nombre;
-    this.precio = precio;
-    this.disponibilidad = disponibilidad;
-  }
+    private int id;
+    private String nombre;
+    private double precio;
+    private boolean disponible;
 
-  public int getId() {
-    return id;
-  }
+    public Producto(int id, String nombre, double precio, boolean disponible) {
+        this.id = id;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.disponible = disponible;
+    }
 
-  public String getNombre() {
-    return nombre;
-  }
+    public int getId() {
+        return id;
+    }
 
-  public double getPrecio() {
-    return precio;
-  }
+    public String getNombre() {
+        return nombre;
+    }
 
-  public boolean getDisponibilidad() {
-    return disponibilidad;
-  }
+    public double getPrecio() {
+        return precio;
+    }
 
-  @Override
-  public String toString() {
-    return "Producto{" +
-            "id=" + id +
-            ", nombre='" + nombre + '\'' +
-            ", precio=" + precio +
-            ", disponibilidad=" + disponibilidad +
-            '}';
-  }
+    public boolean isDisponible() {
+        return disponible;
+    }
 }
