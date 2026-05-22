@@ -8,13 +8,141 @@ import io.javalin.http.staticfiles.Location;
 
 public class App {
     public void runServer() {
+        CarritoCompra carrito = new CarritoCompra(
+            new ServicioPrecioImpl()
+        );
+
         var app = Javalin.create(config -> { 
             config.staticFiles.add("/public", Location.CLASSPATH);
-            config.routes.get("/api", ctx -> ctx.result("Hello World"));
+            config.routes.exception(IllegalArgumentException.class, (error, ctx) -> {
+                ctx.status(400).json(new ErrorResponse(error.getMessage()));
+            });
+
+            config.routes.get("/api/health", ctx -> ctx.result("ok"));
+
+            config.routes.get("/api/carrito/items", ctx -> {
+                ctx.json(carrito.getItems());
+            });
+
+            config.routes.get("/api/carrito/historial", ctx -> {
+                ctx.json(carrito.getHistorial());
+            });
+
+            config.routes.get("/api/carrito/total", ctx -> {
+                ctx.json(new TotalResponse(carrito.calcularTotal()));
+            });
+
+            config.routes.get("/api/carrito/resumen", ctx -> {
+                ctx.json(new ResumenResponse(carrito.obtenerResumenCompra()));
+            });
+
+            config.routes.post("/api/carrito/items", ctx -> {
+                AgregarItemRequest request = ctx.bodyAsClass(
+                    AgregarItemRequest.class
+                );
+
+                Producto producto = request.getProducto();
+
+                carrito.agregarProducto(producto, request.getCantidad());
+                ctx.status(201).json(carrito.getItems());
+            });
+
+            config.routes.delete("/api/carrito/items/{id}", ctx -> {
+                int productoId = Integer.parseInt(ctx.pathParam("id"));
+                boolean existe = carrito.getItems().stream()
+                    .anyMatch(item -> item.getProducto().getId() == productoId);
+
+                if (!existe) {
+                    ctx.status(404).json(
+                        new ErrorResponse("Producto no encontrado")
+                    );
+                    return;
+                }
+
+                carrito.removerProducto(productoId);
+                ctx.json(carrito.getItems());
+            });
+
+            config.routes.post("/api/carrito/vaciar", ctx -> {
+                carrito.vaciarCarrito();
+                ctx.json(new MessageResponse("Carrito vaciado"));
+            });   
         }).start(7070);
     }
 
     public static void main(String[] args) {
         new App().runServer();
+    }
+
+    public static class AgregarItemRequest {
+        private Producto producto;
+        private int cantidad;
+
+        public AgregarItemRequest() {
+        }
+
+        public Producto getProducto() {
+            return producto;
+        }
+
+        public void setProducto(Producto producto) {
+            this.producto = producto;
+        }
+
+        public int getCantidad() {
+            return cantidad;
+        }
+
+        public void setCantidad(int cantidad) {
+            this.cantidad = cantidad;
+        }
+    }
+
+    public static class TotalResponse {
+        private double total;
+
+        public TotalResponse(double total) {
+            this.total = total;
+        }
+
+        public double getTotal() {
+            return total;
+        }
+    }
+
+    public static class ResumenResponse {
+        private String resumen;
+
+        public ResumenResponse(String resumen) {
+            this.resumen = resumen;
+        }
+
+        public String getResumen() {
+            return resumen;
+        }
+    }
+
+    public static class MessageResponse {
+        private String message;
+
+        public MessageResponse(String message) {
+            this.message = message;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+    }
+
+    public static class ErrorResponse {
+        private String error;
+
+        public ErrorResponse(String error) {
+            this.error = error;
+        }
+
+        public String getError() {
+            return error;
+        }
     }
 }
