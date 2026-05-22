@@ -4,12 +4,13 @@
 package org.example;
 
 import io.javalin.Javalin;
-//import io.javalin.http.staticfiles.Location;
+import io.javalin.http.staticfiles.Location;
 
 public class App {
     public void runServer() {
-        var app = Javalin.create(config -> {
-            config.routes.get("/", ctx -> ctx.result("Hello World"));
+        var app = Javalin.create(config -> { 
+            config.staticFiles.add("/public", Location.CLASSPATH);
+            config.routes.get("/api", ctx -> ctx.result("Hello World"));
         }).start(7070);
     }
 

@@ -41,18 +41,34 @@ public class CarritoCompra {
         items.add(new ItemCarrito(producto, cantidad));
 
         historial.add(
-            new HistorialOperacion("Producto agregado")
+            new HistorialOperacion(
+                "Agregado: " + producto.getNombre()
+            )
         );
     }
 
     public void removerProducto(int productoId) {
+        String nombreProducto = null;
+
+        for (ItemCarrito item : items) {
+            if (item.getProducto().getId() == productoId) {
+                nombreProducto = item.getProducto().getNombre();
+                break;
+            }
+        }
 
         items.removeIf(
             item -> item.getProducto().getId() == productoId
         );
 
+        if (nombreProducto == null) {
+            nombreProducto = "Producto " + productoId;
+        }
+
         historial.add(
-            new HistorialOperacion("Producto removido")
+            new HistorialOperacion(
+                "Removido: " + nombreProducto
+            )
         );
     }
 
@@ -83,14 +99,19 @@ public class CarritoCompra {
         double impuesto =
             servicioPrecio.calcularImpuesto(subtotal);
 
-        return subtotal - descuento + impuesto;
+        double descuentoAplicado = Math.min(descuento, subtotal);
+
+        return subtotal - descuentoAplicado + impuesto;
     }
 
     public String obtenerResumenCompra() {
 
         StringBuilder resumen = new StringBuilder();
+        double subtotal = 0;
 
         for (ItemCarrito item : items) {
+
+            subtotal += item.getSubtotal();
 
             resumen.append(item.getProducto().getNombre())
                    .append(" x ")
@@ -98,7 +119,10 @@ public class CarritoCompra {
                    .append("\n");
         }
 
-        resumen.append("TOTAL: ")
+        resumen.append("Subtotal: ")
+               .append(subtotal)
+               .append("\n")
+               .append("Total: ")
                .append(calcularTotal());
 
         return resumen.toString();

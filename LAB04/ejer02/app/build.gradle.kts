@@ -20,6 +20,8 @@ dependencies {
     implementation("io.javalin:javalin-bundle:7.2.2")
 
     testImplementation(libs.junit.jupiter)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.junit.jupiter)
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
