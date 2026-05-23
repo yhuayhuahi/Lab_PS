@@ -156,6 +156,20 @@ public class CarritoCompraTest {
   }
 
   @Test
+  void p14_calcularTotal_conEnteros_formulaBasica() {
+    ServicioPrecio servicioPrecio = mock(ServicioPrecio.class);
+    CarritoCompra carritoConMock = new CarritoCompra(servicioPrecio);
+    Producto producto = new Producto(1, "Producto 1", 100.0, true);
+
+    when(servicioPrecio.calcularDescuento(100.0)).thenReturn(10.0);
+    when(servicioPrecio.calcularImpuesto(100.0)).thenReturn(18.0);
+
+    carritoConMock.agregarProducto(producto, 1);
+
+    assertEquals(108.0, carritoConMock.calcularTotal(), 0.0001);
+  }
+
+  @Test
   void p15_validarDecimales_calculoTotalCorrecto() {
     ServicioPrecio servicioPrecio = mock(ServicioPrecio.class);
     CarritoCompra carritoConMock = new CarritoCompra(servicioPrecio);
