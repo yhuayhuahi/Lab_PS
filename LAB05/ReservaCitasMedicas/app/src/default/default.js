@@ -1,7 +1,7 @@
 export const defaultStyle = /*css*/`
   :host {
     display: block flow;
-    font-family: "Cascadia Code", sans-serif;
+    font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
     width: 100%;
   }
   * {

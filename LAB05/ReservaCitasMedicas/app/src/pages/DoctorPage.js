@@ -4,6 +4,9 @@ import { MedicoRepository } from '../model/MedicoRepository.js'
 import { PacienteRepository } from '../model/PacienteRepository.js'
 import { CitaRepository } from '../model/CitaRepository.js'
 import { CitaService } from '../model/citaService.js'
+import '../components/ConfirmDialog.js'
+import '../components/AvailabilityGrid.js'
+import '../components/AppointmentsList.js'
 
 const styles = /*css*/`
   ${defaultStyle}
@@ -43,86 +46,6 @@ const styles = /*css*/`
     font-size: 1.35rem;
     margin-bottom: 8px;
     color: #1a237e;
-  }
-  .date-row {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    margin-bottom: 14px;
-  }
-  input[type="date"] {
-    border: 1.4px solid #b3c6e4;
-    border-radius: 8px;
-    padding: 8px 10px;
-    font-size: 1rem;
-    background: #f8faff;
-  }
-  .slot-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-    gap: 10px;
-  }
-  .slot {
-    padding: 9px 10px;
-    border-radius: 8px;
-    border: 1.4px solid #c8d4f0;
-    background: #f6f9ff;
-    color: #223;
-    font-weight: 600;
-    cursor: pointer;
-    text-align: center;
-    transition: all .15s;
-    user-select: none;
-  }
-  .slot.available { background: #e8f5ff; color: #1976d2; border-color: #90caf9; }
-  .slot.reserved { background: #ffe8e8; color: #c62828; border-color: #ef9a9a; cursor: not-allowed; }
-  .slot.empty { background: #f6f9ff; color: #37474f; }
-  .slot.add { background: #e0f7fa; color: #00796b; border-color: #4dd0e1; }
-  .slot.remove { background: #fff3e0; color: #ef6c00; border-color: #ffcc80; }
-  .slot.disabled { background: #f0f0f0; color: #9e9e9e; border-color: #ddd; cursor: not-allowed; }
-  .actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 14px;
-  }
-  .btn {
-    padding: 10px 16px;
-    border-radius: 8px;
-    border: none;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  .btn.primary {
-    background: #1976d2;
-    color: #fff;
-    box-shadow: 0 2px 10px #1976d225;
-  }
-  .btn.ghost {
-    background: #f5f5f5;
-    color: #333;
-  }
-  .list {
-    margin-top: 12px;
-    display: grid;
-    gap: 8px;
-  }
-  .list-item {
-    padding: 10px 12px;
-    border-radius: 8px;
-    background: #f7f9ff;
-    border: 1px solid #dde6f5;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .pill {
-    font-size: 0.85rem;
-    background: #e3f2fd;
-    color: #1565c0;
-    padding: 4px 10px;
-    border-radius: 999px;
   }
   .alert {
     padding: 10px 12px;
@@ -197,32 +120,32 @@ class DoctorPage extends HTMLElement {
         <div class="row">
           <div class="card">
             <h2>Disponibilidad por día</h2>
-            <div class="date-row">
-              <label>Fecha:</label>
-              <input type="date" id="date-input" value="${date}" />
-            </div>
-            <div class="slot-grid" id="slot-grid">${slotsHtml}</div>
-            <div class="actions">
-              <button class="btn ghost" id="clear-selection">Limpiar selección</button>
-              <button class="btn primary" id="save-availability">Guardar cambios</button>
-            </div>
+            <availability-grid id="availability-grid"></availability-grid>
           </div>
           <div class="card">
             <h2>Próximas citas</h2>
-            <div class="list">${citasHtml}</div>
+            <appointments-list id="appointments-list"></appointments-list>
           </div>
         </div>
       </div>
+      <confirm-dialog id="confirm-dialog"></confirm-dialog>
     `
+
+    const grid = this.shadowRoot.getElementById('availability-grid')
+    if (grid) grid.data = { date, slotsHtml }
+    const list = this.shadowRoot.getElementById('appointments-list')
+    if (list) list.data = { html: citasHtml }
 
     this._bindEvents(session.id)
   }
 
   _bindEvents(medicoId) {
-    const dateInput = this.shadowRoot.getElementById('date-input')
-    const slotGrid = this.shadowRoot.getElementById('slot-grid')
-    const clearBtn = this.shadowRoot.getElementById('clear-selection')
-    const saveBtn = this.shadowRoot.getElementById('save-availability')
+    const grid = this.shadowRoot.getElementById('availability-grid')
+    if (!grid) return
+    const dateInput = grid.shadowRoot.getElementById('date-input')
+    const clearBtn = grid.shadowRoot.getElementById('clear-selection')
+    const saveBtn = grid.shadowRoot.getElementById('save-availability')
+    const confirmDialog = this.shadowRoot.getElementById('confirm-dialog')
 
     if (dateInput) {
       dateInput.addEventListener('change', (e) => {
@@ -233,34 +156,38 @@ class DoctorPage extends HTMLElement {
       })
     }
 
-    if (slotGrid) {
-      slotGrid.addEventListener('click', (e) => {
-        const target = e.target.closest('.slot')
-        if (!target || target.classList.contains('reserved') || target.classList.contains('disabled')) return
-        const hora = target.dataset.hora
-        const estado = target.dataset.estado
-        if (estado === 'empty') {
-          if (this.pendingAdd.has(hora)) this.pendingAdd.delete(hora)
-          else this.pendingAdd.add(hora)
-        } else if (estado === 'available') {
-          if (this.pendingRemove.has(hora)) this.pendingRemove.delete(hora)
-          else this.pendingRemove.add(hora)
-        }
-        this.render()
-      })
-    }
+    grid.addEventListener('slot-toggle', (e) => {
+      const { hora, action, selected } = e.detail
+      if (action === 'add') {
+        if (selected) this.pendingAdd.add(hora)
+        else this.pendingAdd.delete(hora)
+      } else if (action === 'remove') {
+        if (selected) this.pendingRemove.add(hora)
+        else this.pendingRemove.delete(hora)
+      }
+    })
 
     if (clearBtn) {
       clearBtn.addEventListener('click', () => {
         this.pendingAdd.clear()
         this.pendingRemove.clear()
-        this.render()
+        grid.clearSelection()
       })
     }
 
     if (saveBtn) {
-      saveBtn.addEventListener('click', () => {
+      saveBtn.addEventListener('click', async () => {
         const horasAdd = Array.from(this.pendingAdd)
+        const horasRemove = Array.from(this.pendingRemove)
+        if (!horasAdd.length && !horasRemove.length) return
+
+        const message = `Vas a agregar ${horasAdd.length} bloque(s) y quitar ${horasRemove.length} bloque(s). ¿Deseas continuar?`
+        const ok = await confirmDialog.open({
+          title: 'Confirmar cambios',
+          message
+        })
+        if (!ok) return
+
         if (horasAdd.length) {
           CitaService.medicoDeclaraDisponibilidad({
             medicoId,
@@ -268,7 +195,6 @@ class DoctorPage extends HTMLElement {
             horas: horasAdd
           })
         }
-        const horasRemove = Array.from(this.pendingRemove)
         horasRemove.forEach(hora => {
           CitaService.medicoDeshabilitaBloque({
             medicoId,
