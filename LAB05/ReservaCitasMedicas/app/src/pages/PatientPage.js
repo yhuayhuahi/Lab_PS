@@ -98,6 +98,9 @@ const styles = /*css*/`
     color: #1565c0;
     padding: 4px 10px;
     border-radius: 999px;
+    white-space: nowrap;
+    min-width: 88px;
+    text-align: center;
   }
   .danger {
     background: #ffe8e8;
@@ -111,6 +114,11 @@ const styles = /*css*/`
     color: #ef6c00;
     border: 1px solid #ffcc80;
     margin-bottom: 10px;
+  }
+  #appointments-list {
+    max-height: 360px;
+    overflow: auto;
+    padding-right: 4px;
   }
   @media (max-width: 900px) {
     .row { grid-template-columns: 1fr; }
@@ -311,7 +319,11 @@ class PatientPage extends HTMLElement {
   }
 
   _getFechaHoy() {
-    return new Date().toISOString().slice(0, 10)
+    const d = new Date()
+    const year = d.getFullYear()
+    const month = String(d.getMonth() + 1).padStart(2, '0')
+    const day = String(d.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
   }
 
   _getHoraActual() {
