@@ -4,6 +4,7 @@ import { MedicoRepository } from '../model/MedicoRepository.js'
 import { PacienteRepository } from '../model/PacienteRepository.js'
 import { CitaRepository } from '../model/CitaRepository.js'
 import { CitaService } from '../model/citaService.js'
+import { getTodayDateString, getCurrentTimeString } from '../utils/time.js'
 import '../components/ConfirmDialog.js'
 import '../components/AvailabilityGrid.js'
 
@@ -88,7 +89,7 @@ class DoctorPage extends HTMLElement {
   constructor() {
     super()
     this.attachShadow({ mode: 'open' })
-    this.selectedDate = this._getFechaHoy()
+    this.selectedDate = getTodayDateString()
     this.pendingAdd = new Set()
     this.pendingRemove = new Set()
   }
@@ -108,8 +109,8 @@ class DoctorPage extends HTMLElement {
     const date = this.selectedDate
     const bloques = CitaService.getBloquesHorario()
     const estadoSlots = this._mapEstadoSlots(session.id, date)
-    const nowDate = this._getFechaHoy()
-    const nowTime = this._getHoraActual()
+    const nowDate = getTodayDateString()
+    const nowTime = getCurrentTimeString()
 
     const slotsHtml = bloques.map(hora => {
       const estado = estadoSlots[hora] || 'empty'
@@ -261,16 +262,11 @@ class DoctorPage extends HTMLElement {
   }
 
   _getFechaHoy() {
-    const d = new Date()
-    const year = d.getFullYear()
-    const month = String(d.getMonth() + 1).padStart(2, '0')
-    const day = String(d.getDate()).padStart(2, '0')
-    return `${year}-${month}-${day}`
+    return getTodayDateString()
   }
 
   _getHoraActual() {
-    const d = new Date()
-    return d.toTimeString().slice(0, 5)
+    return getCurrentTimeString()
   }
 }
 

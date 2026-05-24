@@ -14,3 +14,16 @@ export function formatRemaining(minutes) {
   const m = minutes % 60
   return m ? `${h} h ${m} min` : `${h} h`
 }
+
+export function getTodayDateString() {
+  const d = new Date()
+  const year = d.getFullYear()
+  const month = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
+
+export function getCurrentTimeString() {
+  const d = new Date()
+  return d.toTimeString().slice(0, 5)
+}

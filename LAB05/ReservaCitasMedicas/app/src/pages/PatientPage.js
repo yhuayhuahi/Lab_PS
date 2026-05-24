@@ -3,7 +3,7 @@ import { AuthService } from '../model/authService.js'
 import { MedicoRepository } from '../model/MedicoRepository.js'
 import { CitaRepository } from '../model/CitaRepository.js'
 import { CitaService } from '../model/citaService.js'
-import { minutesUntil, formatRemaining } from '../utils/time.js'
+import { minutesUntil, formatRemaining, getTodayDateString, getCurrentTimeString } from '../utils/time.js'
 import '../components/ConfirmDialog.js'
 
 const styles = /*css*/`
@@ -129,7 +129,7 @@ class PatientPage extends HTMLElement {
   constructor() {
     super()
     this.attachShadow({ mode: 'open' })
-    this.selectedDate = this._getFechaHoy()
+    this.selectedDate = getTodayDateString()
     this.selectedEspecialidad = ''
     this.selectedMedicoId = ''
     this.selectedHora = ''
@@ -152,8 +152,8 @@ class PatientPage extends HTMLElement {
     const medicosFiltrados = medicos.filter(m => m.especialidad === this.selectedEspecialidad)
     if (!this.selectedMedicoId && medicosFiltrados.length) this.selectedMedicoId = medicosFiltrados[0].id
 
-    const nowDate = this._getFechaHoy()
-    const nowTime = this._getHoraActual()
+    const nowDate = getTodayDateString()
+    const nowTime = getCurrentTimeString()
     const bloquesDisponibles = this.selectedMedicoId
       ? CitaService.getBloquesDisponibles(this.selectedMedicoId, nowDate, nowTime, this.selectedDate)
       : []
@@ -310,8 +310,8 @@ class PatientPage extends HTMLElement {
   }
 
   _getCitasPaciente(pacienteId) {
-    const hoy = this._getFechaHoy()
-    const ahora = this._getHoraActual()
+    const hoy = getTodayDateString()
+    const ahora = getCurrentTimeString()
     return CitaRepository.getAll()
       .filter(c => c.pacienteId === pacienteId && c.tipo === 'paciente' && c.activa)
       .filter(c => c.fecha > hoy || (c.fecha === hoy && c.hora > ahora))
@@ -319,16 +319,11 @@ class PatientPage extends HTMLElement {
   }
 
   _getFechaHoy() {
-    const d = new Date()
-    const year = d.getFullYear()
-    const month = String(d.getMonth() + 1).padStart(2, '0')
-    const day = String(d.getDate()).padStart(2, '0')
-    return `${year}-${month}-${day}`
+    return getTodayDateString()
   }
 
   _getHoraActual() {
-    const d = new Date()
-    return d.toTimeString().slice(0, 5)
+    return getCurrentTimeString()
   }
 }
 
