@@ -6,7 +6,6 @@ import { CitaRepository } from '../model/CitaRepository.js'
 import { CitaService } from '../model/citaService.js'
 import '../components/ConfirmDialog.js'
 import '../components/AvailabilityGrid.js'
-import '../components/AppointmentsList.js'
 
 const styles = /*css*/`
   ${defaultStyle}
@@ -55,6 +54,31 @@ const styles = /*css*/`
     border: 1px solid #ffcc80;
     margin-bottom: 10px;
   }
+  .summary {
+    display: grid;
+    gap: 10px;
+    margin-top: 6px;
+  }
+  .summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #dde6f5;
+    background: #f7f9ff;
+  }
+  .summary-item.available { background: #e8f5ff; border-color: #90caf9; color: #0d47a1; }
+  .summary-item.reserved { background: #ffe8e8; border-color: #ef9a9a; color: #b71c1c; }
+  .summary-item.empty { background: #f0f4f8; border-color: #cfd8dc; color: #455a64; }
+  .summary-title { font-weight: 700; }
+  .summary-pill {
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #ffffffcc;
+  }
   @media (max-width: 900px) {
     .row { grid-template-columns: 1fr; }
   }
@@ -97,15 +121,7 @@ class DoctorPage extends HTMLElement {
       return `<div class="${cls}" data-hora="${hora}" data-estado="${estado}">${hora}</div>`
     }).join('')
 
-    const citas = this._getCitasFuturas(session.id)
-    const citasHtml = citas.length ? citas.map(c => {
-      const paciente = PacienteRepository.getById(c.pacienteId)
-      const nombre = paciente ? paciente.nombre : c.pacienteId
-      return `<div class="list-item">
-        <div><strong>${c.fecha}</strong> ${c.hora} - ${nombre}</div>
-        <span class="pill">Reservada</span>
-      </div>`
-    }).join('') : `<div class="alert">No tienes citas próximas.</div>`
+    const resumen = this._getResumenDia(estadoSlots)
 
     this.shadowRoot.innerHTML = `
       <style>${styles}</style>
@@ -123,8 +139,21 @@ class DoctorPage extends HTMLElement {
             <availability-grid id="availability-grid"></availability-grid>
           </div>
           <div class="card">
-            <h2>Próximas citas</h2>
-            <appointments-list id="appointments-list"></appointments-list>
+            <h2>Resumen del día</h2>
+            <div class="summary">
+              <div class="summary-item available">
+                <div class="summary-title">Bloques disponibles</div>
+                <span class="summary-pill">${resumen.disponibles}</span>
+              </div>
+              <div class="summary-item reserved">
+                <div class="summary-title">Bloques reservados</div>
+                <span class="summary-pill">${resumen.reservados}</span>
+              </div>
+              <div class="summary-item empty">
+                <div class="summary-title">Bloques sin definir</div>
+                <span class="summary-pill">${resumen.vacios}</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -133,8 +162,6 @@ class DoctorPage extends HTMLElement {
 
     const grid = this.shadowRoot.getElementById('availability-grid')
     if (grid) grid.data = { date, slotsHtml }
-    const list = this.shadowRoot.getElementById('appointments-list')
-    if (list) list.data = { html: citasHtml }
 
     this._bindEvents(session.id)
   }
@@ -219,13 +246,18 @@ class DoctorPage extends HTMLElement {
     return slots
   }
 
-  _getCitasFuturas(medicoId) {
-    const hoy = this._getFechaHoy()
-    const ahora = this._getHoraActual()
-    return CitaRepository.getAll()
-      .filter(c => c.medicoId === medicoId && c.tipo === 'paciente' && c.activa)
-      .filter(c => c.fecha > hoy || (c.fecha === hoy && c.hora > ahora))
-      .sort((a, b) => (a.fecha + a.hora).localeCompare(b.fecha + b.hora))
+  _getResumenDia(estadoSlots) {
+    let disponibles = 0
+    let reservados = 0
+    let vacios = 0
+    Object.values(estadoSlots).forEach(estado => {
+      if (estado === 'available') disponibles += 1
+      if (estado === 'reserved') reservados += 1
+    })
+    const totalDefinidos = disponibles + reservados
+    const totalBloques = CitaService.getBloquesHorario().length
+    vacios = totalBloques - totalDefinidos
+    return { disponibles, reservados, vacios }
   }
 
   _getFechaHoy() {

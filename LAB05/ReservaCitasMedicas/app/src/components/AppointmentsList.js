@@ -31,6 +31,15 @@ const styles = /*css*/`
     border: 1px solid #ffcc80;
     margin-bottom: 10px;
   }
+  .meta {
+    margin-bottom: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: #e8f5ff;
+    color: #0d47a1;
+    border: 1px solid #90caf9;
+    font-size: 0.95rem;
+  }
 `
 
 class AppointmentsList extends HTMLElement {
@@ -39,19 +48,22 @@ class AppointmentsList extends HTMLElement {
     this.attachShadow({ mode: 'open' })
   }
 
-  set data({ html }) {
+  set data({ html, meta }) {
     this._html = html
+    this._meta = meta
     this.render()
   }
 
   connectedCallback() {
     if (!this._html) this._html = ''
+    if (!this._meta) this._meta = ''
     this.render()
   }
 
   render() {
     this.shadowRoot.innerHTML = `
       <style>${styles}</style>
+      ${this._meta || ''}
       <div class="list">${this._html || ''}</div>
     `
   }
