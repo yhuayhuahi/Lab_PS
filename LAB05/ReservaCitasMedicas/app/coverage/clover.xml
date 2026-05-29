@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1779721564325" clover="3.2.0">
+  <project timestamp="1779721564325" name="All files">
+    <metrics statements="146" coveredstatements="143" conditionals="94" coveredconditionals="86" methods="61" coveredmethods="60" elements="301" coveredelements="289" complexity="0" loc="146" ncloc="146" packages="1" files="9" classes="9"/>
+    <file name="Cita.js" path="/home/dev666/unsita/files/Lab_PS/LAB05/ReservaCitasMedicas/app/src/model/Cita.js">
+      <metrics statements="7" coveredstatements="7" conditionals="3" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <line num="3" count="2" type="stmt"/>
+      <line num="4" count="2" type="stmt"/>
+      <line num="5" count="2" type="stmt"/>
+      <line num="6" count="2" type="stmt"/>
+      <line num="7" count="2" type="stmt"/>
+      <line num="8" count="2" type="stmt"/>
+      <line num="9" count="2" type="stmt"/>
+    </file>
+    <file name="CitaRepository.js" path="/home/dev666/unsita/files/Lab_PS/LAB05/ReservaCitasMedicas/app/src/model/CitaRepository.js">
+      <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="5"/>
+      <line num="3" count="4" type="stmt"/>
+      <line num="7" count="3" type="stmt"/>
+      <line num="10" count="1" type="stmt"/>
+      <line num="13" count="6" type="stmt"/>
+      <line num="16" count="1" type="stmt"/>
+      <line num="19" count="1" type="stmt"/>
+    </file>
+    <file name="Medico.js" path="/home/dev666/unsita/files/Lab_PS/LAB05/ReservaCitasMedicas/app/src/model/Medico.js">
+      <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <line num="3" count="1" type="stmt"/>
+      <line num="4" count="1" type="stmt"/>
+      <line num="5" count="1" type="stmt"/>
+      <line num="6" count="1" type="stmt"/>
+      <line num="7" count="1" type="stmt"/>
+    </file>
+    <file name="MedicoRepository.js" path="/home/dev666/unsita/files/Lab_PS/LAB05/ReservaCitasMedicas/app/src/model/MedicoRepository.js">
+      <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="5"/>
+      <line num="3" count="10" type="stmt"/>
+      <line num="7" count="3" type="stmt"/>
+      <line num="10" count="1" type="stmt"/>
+      <line num="13" count="6" type="stmt"/>
+      <line num="16" count="1" type="stmt"/>
+      <line num="19" count="1" type="stmt"/>
+    </file>
+    <file name="Paciente.js" path="/home/dev666/unsita/files/Lab_PS/LAB05/ReservaCitasMedicas/app/src/model/Paciente.js">
+      <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <line num="3" count="1" type="stmt"/>
+      <line num="4" count="1" type="stmt"/>
+      <line num="5" count="1" type="stmt"/>
+      <line num="6" count="1" type="stmt"/>
+      <line num="7" count="1" type="stmt"/>
+    </file>
+    <file name="PacienteRepository.js" path="/home/dev666/unsita/files/Lab_PS/LAB05/ReservaCitasMedicas/app/src/model/PacienteRepository.js">
+      <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="5"/>
+      <line num="3" count="10" type="stmt"/>
+      <line num="7" count="3" type="stmt"/>
+      <line num="10" count="1" type="stmt"/>
+      <line num="13" count="6" type="stmt"/>
+      <line num="16" count="1" type="stmt"/>
+      <line num="19" count="1" type="stmt"/>
+    </file>
+    <file name="authService.js" path="/home/dev666/unsita/files/Lab_PS/LAB05/ReservaCitasMedicas/app/src/model/authService.js">
+      <metrics statements="28" coveredstatements="28" conditionals="20" coveredconditionals="18" methods="12" coveredmethods="11"/>
+      <line num="4" count="4" type="stmt"/>
+      <line num="9" count="3" type="cond" truecount="1" falsecount="1"/>
+      <line num="10" count="3" type="cond" truecount="2" falsecount="0"/>
+      <line num="11" count="3" type="cond" truecount="2" falsecount="0"/>
+      <line num="12" count="1" type="stmt"/>
+      <line num="13" count="1" type="stmt"/>
+      <line num="15" count="2" type="cond" truecount="2" falsecount="0"/>
+      <line num="16" count="2" type="cond" truecount="2" falsecount="0"/>
+      <line num="17" count="1" type="stmt"/>
+      <line num="18" count="1" type="stmt"/>
+      <line num="20" count="1" type="stmt"/>
+      <line num="25" count="3" type="stmt"/>
+      <line num="26" count="3" type="cond" truecount="4" falsecount="0"/>
+      <line num="27" count="1" type="stmt"/>
+      <line num="28" count="2" type="stmt"/>
+      <line num="30" count="1" type="stmt"/>
+      <line num="31" count="1" type="stmt"/>
+      <line num="36" count="2" type="stmt"/>
+      <line num="37" count="2" type="cond" truecount="4" falsecount="0"/>
+      <line num="38" count="1" type="stmt"/>
+      <line num="39" count="1" type="stmt"/>
+      <line num="41" count="1" type="stmt"/>
+      <line num="42" count="1" type="stmt"/>
+      <line num="47" count="1" type="stmt"/>
+      <line num="48" count="1" type="cond" truecount="1" falsecount="1"/>
+      <line num="50" count="1" type="stmt"/>
+      <line num="56" count="1" type="stmt"/>
+      <line num="60" count="2" type="stmt"/>
+    </file>
+    <file name="citaService.js" path="/home/dev666/unsita/files/Lab_PS/LAB05/ReservaCitasMedicas/app/src/model/citaService.js">
+      <metrics statements="69" coveredstatements="67" conditionals="65" coveredconditionals="64" methods="23" coveredmethods="23"/>
+      <line num="8" count="1" type="stmt"/>
+      <line num="9" count="1" type="stmt"/>
+      <line num="10" count="1" type="stmt"/>
+      <line num="11" count="1" type="stmt"/>
+      <line num="12" count="28" type="stmt"/>
+      <line num="13" count="28" type="stmt"/>
+      <line num="14" count="28" type="stmt"/>
+      <line num="16" count="1" type="stmt"/>
+      <line num="22" count="2" type="stmt"/>
+      <line num="28" count="2" type="stmt"/>
+      <line num="29" count="6" type="cond" truecount="4" falsecount="0"/>
+      <line num="35" count="2" type="stmt"/>
+      <line num="37" count="6" type="cond" truecount="4" falsecount="0"/>
+      <line num="38" count="2" type="stmt"/>
+      <line num="41" count="2" type="stmt"/>
+      <line num="42" count="2" type="stmt"/>
+      <line num="43" count="4" type="stmt"/>
+      <line num="44" count="4" type="stmt"/>
+      <line num="46" count="2" type="cond" truecount="2" falsecount="0"/>
+      <line num="47" count="1" type="stmt"/>
+      <line num="54" count="3" type="stmt"/>
+      <line num="55" count="3" type="stmt"/>
+      <line num="56" count="3" type="stmt"/>
+      <line num="57" count="3" type="cond" truecount="2" falsecount="0"/>
+      <line num="63" count="2" type="stmt"/>
+      <line num="66" count="1" type="stmt"/>
+      <line num="67" count="1" type="cond" truecount="5" falsecount="0"/>
+      <line num="73" count="1" type="cond" truecount="1" falsecount="1"/>
+      <line num="74" count="0" type="stmt"/>
+      <line num="83" count="0" type="stmt"/>
+      <line num="91" count="3" type="stmt"/>
+      <line num="92" count="3" type="stmt"/>
+      <line num="93" count="3" type="cond" truecount="5" falsecount="0"/>
+      <line num="94" count="1" type="stmt"/>
+      <line num="97" count="2" type="stmt"/>
+      <line num="98" count="1" type="cond" truecount="5" falsecount="0"/>
+      <line num="104" count="2" type="cond" truecount="4" falsecount="0"/>
+      <line num="105" count="1" type="stmt"/>
+      <line num="108" count="1" type="stmt"/>
+      <line num="109" count="1" type="stmt"/>
+      <line num="118" count="1" type="stmt"/>
+      <line num="119" count="1" type="stmt"/>
+      <line num="124" count="3" type="stmt"/>
+      <line num="125" count="3" type="cond" truecount="5" falsecount="0"/>
+      <line num="126" count="1" type="stmt"/>
+      <line num="128" count="2" type="stmt"/>
+      <line num="129" count="2" type="stmt"/>
+      <line num="130" count="2" type="cond" truecount="5" falsecount="0"/>
+      <line num="131" count="1" type="stmt"/>
+      <line num="133" count="1" type="stmt"/>
+      <line num="134" count="1" type="stmt"/>
+      <line num="135" count="1" type="stmt"/>
+      <line num="141" count="4" type="stmt"/>
+      <line num="142" count="3" type="cond" truecount="5" falsecount="0"/>
+      <line num="148" count="4" type="cond" truecount="2" falsecount="0"/>
+      <line num="149" count="3" type="stmt"/>
+      <line num="150" count="3" type="stmt"/>
+      <line num="151" count="3" type="stmt"/>
+      <line num="152" count="3" type="cond" truecount="6" falsecount="0"/>
+      <line num="153" count="2" type="stmt"/>
+      <line num="155" count="1" type="stmt"/>
+      <line num="156" count="1" type="stmt"/>
+      <line num="157" count="1" type="stmt"/>
+      <line num="162" count="1" type="stmt"/>
+      <line num="167" count="2" type="stmt"/>
+      <line num="168" count="3" type="cond" truecount="5" falsecount="0"/>
+      <line num="176" count="2" type="stmt"/>
+      <line num="179" count="2" type="stmt"/>
+      <line num="180" count="2" type="stmt"/>
+    </file>
+    <file name="storage.js" path="/home/dev666/unsita/files/Lab_PS/LAB05/ReservaCitasMedicas/app/src/model/storage.js">
+      <metrics statements="14" coveredstatements="13" conditionals="6" coveredconditionals="4" methods="8" coveredmethods="8"/>
+      <line num="4" count="44" type="stmt"/>
+      <line num="5" count="44" type="cond" truecount="2" falsecount="0"/>
+      <line num="8" count="4" type="stmt"/>
+      <line num="9" count="4" type="cond" truecount="1" falsecount="1"/>
+      <line num="12" count="24" type="stmt"/>
+      <line num="13" count="24" type="stmt"/>
+      <line num="14" count="24" type="cond" truecount="1" falsecount="1"/>
+      <line num="15" count="0" type="stmt"/>
+      <line num="17" count="24" type="stmt"/>
+      <line num="19" count="24" type="stmt"/>
+      <line num="22" count="4" type="stmt"/>
+      <line num="23" count="4" type="stmt"/>
+      <line num="24" count="4" type="stmt"/>
+      <line num="27" count="4" type="stmt"/>
+    </file>
+  </project>
+</coverage>
