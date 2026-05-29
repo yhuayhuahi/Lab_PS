@@ -81,6 +81,8 @@ if (!result.ok) {
   alert(result.error); // O mostrarlo en la interfaz
 }
 ```
+// Nota: no se permite reservar otra cita activa en el mismo horario (fecha+hora),
+// aunque sea con distinto médico.
 
 ### b. Cancelar una reserva futura
 ```js

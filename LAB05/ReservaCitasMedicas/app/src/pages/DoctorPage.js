@@ -21,6 +21,11 @@ const styles = /*css*/`
     align-items: center;
     margin-bottom: 24px;
   }
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
   .title {
     font-size: 2rem;
     color: #1976d2;
@@ -54,6 +59,22 @@ const styles = /*css*/`
     color: #ef6c00;
     border: 1px solid #ffcc80;
     margin-bottom: 10px;
+  }
+  .btn {
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .btn.ghost {
+    background: #f5f5f5;
+    color: #333;
+  }
+  .btn.small {
+    padding: 8px 12px;
+    font-size: 0.95rem;
   }
   .summary {
     display: grid;
@@ -132,7 +153,10 @@ class DoctorPage extends HTMLElement {
             <div class="title">Panel del médico</div>
             <div class="subtitle">${medico ? medico.nombre : 'Médico'} • ${medico ? medico.especialidad : ''}</div>
           </div>
-          <div class="subtitle">Agenda y disponibilidad</div>
+          <div class="header-actions">
+            <div class="subtitle">Agenda y disponibilidad</div>
+            <button class="btn ghost small" id="logout-btn">Cerrar sesión</button>
+          </div>
         </div>
         <div class="row">
           <div class="card">
@@ -170,19 +194,8 @@ class DoctorPage extends HTMLElement {
   _bindEvents(medicoId) {
     const grid = this.shadowRoot.getElementById('availability-grid')
     if (!grid) return
-    const dateInput = grid.shadowRoot.getElementById('date-input')
-    const clearBtn = grid.shadowRoot.getElementById('clear-selection')
-    const saveBtn = grid.shadowRoot.getElementById('save-availability')
     const confirmDialog = this.shadowRoot.getElementById('confirm-dialog')
-
-    if (dateInput) {
-      dateInput.addEventListener('change', (e) => {
-        this.selectedDate = e.target.value
-        this.pendingAdd.clear()
-        this.pendingRemove.clear()
-        this.render()
-      })
-    }
+    const logoutBtn = this.shadowRoot.getElementById('logout-btn')
 
     grid.addEventListener('slot-toggle', (e) => {
       const { hora, action, selected } = e.detail
@@ -195,44 +208,54 @@ class DoctorPage extends HTMLElement {
       }
     })
 
-    if (clearBtn) {
-      clearBtn.addEventListener('click', () => {
-        this.pendingAdd.clear()
-        this.pendingRemove.clear()
-        grid.clearSelection()
+    grid.addEventListener('date-change', (e) => {
+      this.selectedDate = e.detail.date
+      this.pendingAdd.clear()
+      this.pendingRemove.clear()
+      this.render()
+    })
+
+    grid.addEventListener('clear-selection', () => {
+      this.pendingAdd.clear()
+      this.pendingRemove.clear()
+      grid.clearSelection()
+    })
+
+    grid.addEventListener('save-selection', async () => {
+      const horasAdd = Array.from(this.pendingAdd)
+      const horasRemove = Array.from(this.pendingRemove)
+      if (!horasAdd.length && !horasRemove.length) return
+
+      const message = `Vas a agregar ${horasAdd.length} bloque(s) y quitar ${horasRemove.length} bloque(s). ¿Deseas continuar?`
+      const ok = await confirmDialog.open({
+        title: 'Confirmar cambios',
+        message
       })
-    }
+      if (!ok) return
 
-    if (saveBtn) {
-      saveBtn.addEventListener('click', async () => {
-        const horasAdd = Array.from(this.pendingAdd)
-        const horasRemove = Array.from(this.pendingRemove)
-        if (!horasAdd.length && !horasRemove.length) return
-
-        const message = `Vas a agregar ${horasAdd.length} bloque(s) y quitar ${horasRemove.length} bloque(s). ¿Deseas continuar?`
-        const ok = await confirmDialog.open({
-          title: 'Confirmar cambios',
-          message
+      if (horasAdd.length) {
+        CitaService.medicoDeclaraDisponibilidad({
+          medicoId,
+          fecha: this.selectedDate,
+          horas: horasAdd
         })
-        if (!ok) return
-
-        if (horasAdd.length) {
-          CitaService.medicoDeclaraDisponibilidad({
-            medicoId,
-            fecha: this.selectedDate,
-            horas: horasAdd
-          })
-        }
-        horasRemove.forEach(hora => {
-          CitaService.medicoDeshabilitaBloque({
-            medicoId,
-            fecha: this.selectedDate,
-            hora
-          })
+      }
+      horasRemove.forEach(hora => {
+        CitaService.medicoDeshabilitaBloque({
+          medicoId,
+          fecha: this.selectedDate,
+          hora
         })
-        this.pendingAdd.clear()
-        this.pendingRemove.clear()
-        this.render()
+      })
+      this.pendingAdd.clear()
+      this.pendingRemove.clear()
+      this.render()
+    })
+
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        AuthService.logout()
+        window.location.hash = '#/'
       })
     }
   }

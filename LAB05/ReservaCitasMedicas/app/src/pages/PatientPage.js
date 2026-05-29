@@ -19,6 +19,11 @@ const styles = /*css*/`
     align-items: center;
     margin-bottom: 24px;
   }
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
   .title {
     font-size: 2rem;
     color: #1976d2;
@@ -78,6 +83,10 @@ const styles = /*css*/`
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
+  }
+  .btn.small {
+    padding: 8px 12px;
+    font-size: 0.95rem;
   }
   .btn.primary { background: #1976d2; color: #fff; box-shadow: 0 2px 10px #1976d225; }
   .btn.ghost { background: #f5f5f5; color: #333; }
@@ -188,7 +197,10 @@ class PatientPage extends HTMLElement {
             <div class="title">Panel del paciente</div>
             <div class="subtitle">Reserva y gestiona tus citas</div>
           </div>
-          <div class="subtitle">Disponibilidad y reservas</div>
+          <div class="header-actions">
+            <div class="subtitle">Disponibilidad y reservas</div>
+            <button class="btn ghost small" id="logout-btn">Cerrar sesión</button>
+          </div>
         </div>
         <div class="row">
           <div class="card">
@@ -229,6 +241,7 @@ class PatientPage extends HTMLElement {
     const reserveBtn = this.shadowRoot.getElementById('reserve-slot')
     const confirmDialog = this.shadowRoot.getElementById('confirm-dialog')
     const list = this.shadowRoot.getElementById('appointments-list')
+    const logoutBtn = this.shadowRoot.getElementById('logout-btn')
 
     if (especialidadSelect) {
       especialidadSelect.addEventListener('change', (e) => {
@@ -290,6 +303,13 @@ class PatientPage extends HTMLElement {
           this.selectedHora = ''
           this.render()
         }
+      })
+    }
+
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        AuthService.logout()
+        window.location.hash = '#/'
       })
     }
 

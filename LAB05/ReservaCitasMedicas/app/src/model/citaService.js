@@ -93,6 +93,17 @@ export class CitaService {
     if (fecha < hoy || (fecha === hoy && hora < ahora)) {
       return { ok: false, error: 'No se puede reservar en el pasado o bloque actual.' };
     }
+    // Un paciente no puede tener dos citas activas en el mismo horario
+    const conflictoPaciente = CitaRepository.getAll().some(c =>
+      c.pacienteId === pacienteId &&
+      c.fecha === fecha &&
+      c.hora === hora &&
+      c.tipo === 'paciente' &&
+      c.activa
+    );
+    if (conflictoPaciente) {
+      return { ok: false, error: 'Ya tienes una cita activa en ese horario.' };
+    }
     // El bloque debe existir como disponibilidad médica y estar libre
     const existeBloque = CitaRepository.getAll().some(c =>
       c.medicoId === medicoId &&
@@ -173,7 +184,11 @@ export class CitaService {
     );
   }
   static _getFechaHoy() {
-    return new Date().toISOString().slice(0, 10);
+    const d = new Date();
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
   static _getHoraActual() {
     const d = new Date();

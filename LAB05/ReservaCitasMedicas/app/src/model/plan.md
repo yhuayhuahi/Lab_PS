@@ -54,6 +54,7 @@
 ## 4. Restricciones
 - Prohibido reservar/cancelar unidades de tiempo pasadas o en curso.
 - El médico no puede remover bloques ya reservados (tipo: “paciente”).
+- Un paciente no puede tener más de una cita activa en el mismo horario (fecha + hora), aunque sea con distinto médico.
 - La agenda parte solo de los bloques disponibles definidos y de las citas (bloques reservados).
 
 ---
