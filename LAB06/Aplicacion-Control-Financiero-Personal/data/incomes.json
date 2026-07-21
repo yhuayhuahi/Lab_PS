@@ -1,0 +1,42 @@
+[
+    {
+        "id": "ffc69a0d-2168-4685-a7ed-69ed1425ef09",
+        "type": "income",
+        "title": "Sueldo",
+        "description": "Pago de sueldo",
+        "amount": 3000.0,
+        "category": "Salario",
+        "date": "2026-05-24",
+        "payment_method": "Efectivo"
+    },
+    {
+        "id": "6c5deac6-a68a-46df-91dd-ddb4ea5edc9e",
+        "type": "income",
+        "title": "Venta",
+        "description": "Juguetes para niños",
+        "amount": 300.0,
+        "category": "Negocio",
+        "date": "2026-05-24",
+        "payment_method": "Tarjeta de Crédito"
+    },
+    {
+        "id": "f6d3158f-37ba-467c-8ca9-99fb78d7cf10",
+        "type": "income",
+        "title": "Un ingreso Random",
+        "description": "Un ingreso random",
+        "amount": 10.0,
+        "category": "Salario",
+        "date": "2026-06-19",
+        "payment_method": "Efectivo"
+    },
+    {
+        "id": "5e902474-a6bf-4531-b975-26dc55db46a9",
+        "type": "income",
+        "title": "Venta de Laptop",
+        "description": "",
+        "amount": 750.0,
+        "category": "Salario",
+        "date": "2026-06-19",
+        "payment_method": "Efectivo"
+    }
+]

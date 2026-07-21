@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: control_financiero_app
+    volumes:
+      - .:/app
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    environment:
+      - DISPLAY=${DISPLAY} # Comparte tu pantalla de Linux con el contenedor
+    network_mode: "host"   # Permite que se conecte al servidor X11 local
+    ipc: host              # Mejora el rendimiento gráfico entre host y contenedor

@@ -1,0 +1,42 @@
+[
+    {
+        "id": "1c9dd77b-d525-48af-a0eb-e482845870df",
+        "type": "expense",
+        "title": "Cena",
+        "description": "Pollo a la Brasa",
+        "amount": 70.0,
+        "category": "Alimentación",
+        "date": "2026-05-24",
+        "payment_method": "Tarjeta de Débito"
+    },
+    {
+        "id": "356ffb76-16f8-4bc6-8905-70f6df96cf8e",
+        "type": "expense",
+        "title": "Despensa",
+        "description": "Comida para la casa",
+        "amount": 200.0,
+        "category": "Alimentación",
+        "date": "2026-05-24",
+        "payment_method": "Efectivo"
+    },
+    {
+        "id": "4a9585b8-9c80-45a6-b3b4-79da1964da3b",
+        "type": "expense",
+        "title": "Luz",
+        "description": "Pago de la luz",
+        "amount": 130.0,
+        "category": "Vivienda",
+        "date": "2026-05-24",
+        "payment_method": "Transferencia"
+    },
+    {
+        "id": "2a3428d8-0524-4cb4-9d03-9fbb66b20aa9",
+        "type": "expense",
+        "title": "Pelota de Futbol",
+        "description": "Adquisición de un balon de futbol",
+        "amount": 16.0,
+        "category": "Salud",
+        "date": "2026-06-19",
+        "payment_method": "Tarjeta de Crédito"
+    }
+]
