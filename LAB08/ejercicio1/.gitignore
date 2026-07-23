@@ -1,0 +1,49 @@
+# Configuración de GitIgnore para Express y React
+
+# Dependencias (Nunca se suben)
+node_modules/
+jspm_packages/
+web_reach_output/
+
+# Archivos de producción / Builds
+dist/
+build/
+out/
+.next/
+
+# Variables de entorno y secretos (¡CRÍTICO! Nunca subas tus llaves o contraseñas)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.pem
+*.key
+
+# Logs del sistema y de Node
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Diagnósticos y pruebas
+.pnp
+.pnp.js
+coverage/
+.nyc_output
+
+# Configuración del Editor / IDE (Opcional, pero recomendado)
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Archivos del Sistema Operativo
+.DS_Store
+Thumbs.db
